@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/navbar/navbar";
 
-import "./App.css";
+import {Container} from "./App.styles"
 
 import Home from "./pages/home/home";
 import BigSavings from "./pages/big-savings";
@@ -10,7 +10,7 @@ import Profile from "./pages/profile";
 
 const App = () => {
   return (
-    <div className="app-container">
+    <Container>
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Home />} />
@@ -20,7 +20,7 @@ const App = () => {
         </Routes>
         <NavBar />
       </BrowserRouter>
-    </div>
+    </Container>
   );
 };
 
