@@ -1,28 +1,25 @@
-import "./expences.scss";
+import {ExpenceList,ExpenseCard,ExpensesContainer} from  "./expences.styles";
+
 
 const Expenses = ({ expenses }) => {
   return (
-    <div className="expences">
+    <ExpensesContainer>
       <h2>Monthly Budget</h2>
-      <div className="expence-container">
+      <ExpenceList>
         {expenses.map((expense) => {
           return (
-            <div key={expense.id} className="expence-card">
+            <ExpenseCard key={expense.id}>
               <p>{expense.name}</p>
               <p className="amount">{expense.amount}</p>
-            </div>
+            </ExpenseCard>
           );
         })}
-        <button onClick={addExpense}>
-          <span>add expense</span>
-        </button>
-      </div>
-    </div>
+      </ExpenceList>
+
+    </ExpensesContainer>
   );
 };
 
-const addExpense = () => {
-  console.log("expence added");
-};
+
 
 export default Expenses;

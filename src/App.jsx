@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/navbar/navbar";
 
-import "./App.css";
+import {AppContainer} from "./App.styles";
 
 import Home from "./pages/home/home";
-import BigSavings from "./pages/big-savings";
-import Graphs from "./pages/graphs";
-import Profile from "./pages/profile";
+import BigSavings from "./pages/big-savings/big-savings";
+import Graphs from "./pages/graphs/graphs";
+import Profile from "./pages/profile/profile";
 
 const App = () => {
   return (
-    <div className="app-container">
+    <AppContainer>
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Home />} />
@@ -20,7 +20,7 @@ const App = () => {
         </Routes>
         <NavBar />
       </BrowserRouter>
-    </div>
+    </AppContainer>
   );
 };
 

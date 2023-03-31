@@ -1,8 +1,8 @@
-import "./transactions.scss";
+import {TransactionList} from "./transactions.styles";
 
 const Transactions = ({ data }) => {
   return (
-    <div className="transaction-list">
+    <TransactionList>
       {data.map((transaction) => {
         return (
           <div key={transaction.id}>
@@ -11,7 +11,7 @@ const Transactions = ({ data }) => {
           </div>
         );
       })}
-    </div>
+    </TransactionList>
   );
 };
 
