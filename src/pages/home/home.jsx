@@ -5,8 +5,10 @@ import Expenses from "../../components/expences/expences";
 import AddTransactionForm from "../../components/add-transaction-form/add-transaction-form";
 import AddExpenceForm from "../../components/add-expense-form/add-expense-form";
 import PieChart from "../../components/pie-chart/pie-chart";
+import EditIncomeForm from "../../components/edit-income-form/edit-income-form";
 
 import {ReactComponent as EditIcon} from "../../assets/edit.svg";
+
 
 import {HomeContent,HomeContainer,EditButton,GraphContainer} from "./home.styles";
 
@@ -26,13 +28,14 @@ const Home = () => {
       { id: 2, name: "Entertainment", amount: 600 },
       { id: 3, name: "Car", amount: 1000 },
     ]);
-  const mainBalance = 10000;
+  const [mainBalance,setMainBalance] = useState(10000);
+  const [isFormOpen,setIsFormOpen] = useState(false)
     
   const chartData = {
       labels:expenses.map(({name}) =>name),
       datasets:[
         {
-          label:"Amount",
+          label:"Amount:",
           data: expenses.map(({amount})=>amount),
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -54,6 +57,13 @@ const Home = () => {
         }
       ]
     }
+  const openForm = () => {
+    setIsFormOpen(true)
+  }
+
+  const closeForm = () => {
+    setIsFormOpen(false)
+  }
   
   const openExpencesForm = () => {
     setIsExpencesFormOpen(true)
@@ -78,6 +88,11 @@ const Home = () => {
     setTransactions([...transactions,{Transaction:values.value,Name:values.name}]);
   };
 
+  const editIncome = ({value}) =>{
+    console.log(value)
+    setMainBalance(value)
+  }
+
   return (
     <HomeContainer>
       {isTransactionFormOpen && (
@@ -86,19 +101,28 @@ const Home = () => {
           addTransaction={addTransaction}
         />
       )}
+      {isFormOpen && (
+        <EditIncomeForm
+          currentValue={mainBalance}
+          closeForm={closeForm}
+          editIncome={editIncome}
+        />
+      )}
       {isExpencesFormOpen && < AddExpenceForm closeForm={closeExpencesForm} confirmForm={addExpence}/>}
       <HomeContent disabled={isTransactionFormOpen || isExpencesFormOpen}>
         <div className="balance">
           <h2>Remaining Balance: {(mainBalance - spentBalance).toFixed(2)}</h2>
           <div className="income">
             <h3>Income: ${mainBalance}</h3>
-            <button>Edit Income</button>
+            <button onClick={openForm}>Edit Income</button>
           </div>
           <h3>Spent: ${spentBalance}</h3>
           <h3>Total Bills: $500</h3>
         </div>
         <div>
-          <PieChart chartData={chartData}></PieChart>
+          <GraphContainer>
+            <PieChart chartData={chartData}></PieChart>
+          </GraphContainer>
           <Expenses expenses={expenses}  />
           <EditButton onClick={openExpencesForm}>Add Expense</EditButton>
         </div>

@@ -47,14 +47,14 @@ export const GraphContainer = styled.div`
     align-items: center;
     justify-content: center;
     display: flex;
+    width:100%
+    canvas{
 
-    span{
-        height: 250px;
-        width: 250px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
+        width:500px;
+        height:500px
     }
+    
+  
 `
 
 export const EditButton = styled.button`
