@@ -47,13 +47,8 @@ export const GraphContainer = styled.div`
     align-items: center;
     justify-content: center;
     display: flex;
-    width:100%
-    canvas{
-
-        width:500px;
-        height:500px
-    }
-    
+    width:100%;
+    height:500px;
   
 `
 
