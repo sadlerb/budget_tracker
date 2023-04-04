@@ -99,9 +99,6 @@ const Home = () => {
         </div>
         <div>
           <PieChart chartData={chartData}></PieChart>
-          <GraphContainer>
-            <span></span>
-          </GraphContainer>
           <Expenses expenses={expenses}  />
           <EditButton onClick={openExpencesForm}>Add Expense</EditButton>
         </div>
