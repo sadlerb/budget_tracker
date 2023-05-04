@@ -7,29 +7,34 @@ import AddExpenceForm from "../../components/add-expense-form/add-expense-form";
 import PieChart from "../../components/pie-chart/pie-chart";
 import EditIncomeForm from "../../components/edit-income-form/edit-income-form";
 
+
+
 import {ReactComponent as EditIcon} from "../../assets/edit.svg";
 
 
+
 import {HomeContent,HomeContainer,EditButton,GraphContainer} from "./home.styles";
+import MultiForm from "../../components/multi-form/multi-form";
 
 const Home = () => {
+
   const [transactions, setTransactions] = useState([
-    { Transaction: 100, Name: "Transaction Name", id: 0 },
-    { Transaction: 244.24, Name: "Transaction Name", id: 2 },
-    { Transaction: 600, Name: "Transaction Name", id: 1 },
+    { Transaction: 100, Name: "Transaction Name", id: 0,category:"CAT1" },
+    { Transaction: 244.24, Name: "Transaction Name", id: 2,category:"CAT2" },
+    { Transaction: 600, Name: "Transaction Name", id: 1,category:"CAT3" },
   ]);
-  const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
-  const [isExpencesFormOpen, setIsExpencesFormOpen] = useState(false);
+  const [isMultiFormOpen,setIsMultiFormOpen] = useState(false);
+  const [formValues,setFormValues] = useState({})
   const [spentBalance, setSpentBalance] = useState(
     transactions.reduce((s, a) => s + a.Transaction, 0)
     );
   const [expenses, setExpenses] = useState([
-      { id: 1, name: "Food", amount: 400 },
-      { id: 2, name: "Entertainment", amount: 600 },
-      { id: 3, name: "Car", amount: 1000 },
+      { id: "CAT1", name: "Food", amount: 400 },
+      { id: "CAT2", name: "Entertainment", amount: 600 },
+      { id: "CAT3", name: "Car", amount: 1000 },
     ]);
   const [mainBalance,setMainBalance] = useState(10000);
-  const [isFormOpen,setIsFormOpen] = useState(false)
+
     
   const chartData = {
       labels:expenses.map(({name}) =>name),
@@ -57,64 +62,73 @@ const Home = () => {
         }
       ]
     }
-  const openForm = () => {
-    setIsFormOpen(true)
-  }
-
-  const closeForm = () => {
-    setIsFormOpen(false)
+    
+  const editExpence = (values) => {
+    values.amount = Number(values.price) 
+    const index = expenses.findIndex(x => x.id === values.id)
+    var newArray = [...expenses]
+    newArray[index] = values
+    setExpenses(newArray)
+    console.log(index,newArray)
   }
   
-  const openExpencesForm = () => {
-    setIsExpencesFormOpen(true)
-   
+  const editIncomeForm = () => {
+    setFormValues({
+      "type":"EditInc",
+      "submit": editIncome,
+      "props":{"currentValue":mainBalance}
+    })
+    setIsMultiFormOpen(true)
   }
-  const closeExpencesForm = () => {
-    setIsExpencesFormOpen(false)
+  const openExpencesForm = () => {
+    setFormValues({
+      "type":"AddExp",
+      "submit": addExpence,
+      "props":null
+    })
+    setIsMultiFormOpen(true)
+    
+  }
+  const openAddTransactionForm = () => {
+    setFormValues({
+      "type":"AddTrans",
+      "submit": addTransaction,
+      "props":{"categories":expenses}
+    })
+    setIsMultiFormOpen(true)
+  };
+
+  const closeMultiForm = () => {
+    setIsMultiFormOpen(false)
   }
 
   const addExpence = (values) => {
-      setExpenses([...expenses,{name:values.name,amount:values.price}])
+      setExpenses([...expenses,{name:values.name,amount:values.price,id:"CAT"+expenses.length+1}])
   }
+  
 
-  const openAddTransactionForm = () => {
-    setIsTransactionFormOpen(true);
-  };
-  const closeTransactionForm = () => {
-    setIsTransactionFormOpen(false);
-  };
   const addTransaction = (values) => {
+    console.log(values)
     setSpentBalance((parseFloat(spentBalance) + parseFloat(values.value)).toFixed(2));
-    setTransactions([...transactions,{Transaction:values.value,Name:values.name}]);
-  };
+    setTransactions([...transactions,{Transaction:values.Value,Name:values.Name,category:values.category}]);
 
+  };
+ 
   const editIncome = ({value}) =>{
-    console.log(value)
     setMainBalance(value)
   }
 
+
+
   return (
     <HomeContainer>
-      {isTransactionFormOpen && (
-        <AddTransactionForm
-          closeTransactionForm={closeTransactionForm}
-          addTransaction={addTransaction}
-        />
-      )}
-      {isFormOpen && (
-        <EditIncomeForm
-          currentValue={mainBalance}
-          closeForm={closeForm}
-          editIncome={editIncome}
-        />
-      )}
-      {isExpencesFormOpen && < AddExpenceForm closeForm={closeExpencesForm} confirmForm={addExpence}/>}
-      <HomeContent disabled={isTransactionFormOpen || isExpencesFormOpen}>
+      {isMultiFormOpen && (<MultiForm submitAction={formValues.submit} closeAction={closeMultiForm} type={formValues.type} props={formValues.props}/>)}
+      <HomeContent disabled={isMultiFormOpen}>
         <div className="balance">
           <h2>Remaining Balance: {(mainBalance - spentBalance).toFixed(2)}</h2>
           <div className="income">
             <h3>Income: ${mainBalance}</h3>
-            <button onClick={openForm}>Edit Income</button>
+            <EditButton variant="outline-primary" size="sm" onClick={editIncomeForm} className="m-2">Edit Income</EditButton>
           </div>
           <h3>Spent: ${spentBalance}</h3>
           <h3>Total Bills: $500</h3>
@@ -123,8 +137,8 @@ const Home = () => {
           <GraphContainer>
             <PieChart chartData={chartData}></PieChart>
           </GraphContainer>
-          <Expenses expenses={expenses}  />
-          <EditButton onClick={openExpencesForm}>Add Expense</EditButton>
+          <Expenses expenses={expenses} editExpence={editExpence}  />
+          <EditButton onClick={openExpencesForm} className="my-3">Add Expense</EditButton>
         </div>
         <Transactions data={transactions} />
         <EditButton onClick={openAddTransactionForm}>Add Transaction</EditButton>

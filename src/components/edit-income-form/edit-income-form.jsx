@@ -1,7 +1,7 @@
 import BaseForm from "../base-form/base-form";
 
 
-const EditIncomeForm = ({ closeForm, editIncome,currentValue}) => {
+const EditIncomeForm = ({ closeForm, confirmForm,currentValue}) => {
     const formFields =[
         { label: "value", type: "number", value: currentValue },
     ]
@@ -14,7 +14,7 @@ const EditIncomeForm = ({ closeForm, editIncome,currentValue}) => {
         });
         
         
-        editIncome(results)
+        confirmForm(results)
     }
 
     return (

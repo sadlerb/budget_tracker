@@ -1,8 +1,13 @@
 import { useState } from "react";
 
-import Input from "../base-input/base-input"
+import Input from "../base-input/base-input";
 
-const BaseForm = ({ closeAction, submitAction,formFields }) => {
+import {FormContainer} from "./base-form.styles.jsx"
+
+
+import { Form,Button,Row,Col } from "react-bootstrap";
+
+const BaseForm = ({ closeAction, submitAction,formFields,children }) => {
     const [formValues, setFormFields] = useState(formFields);
     const handleChange = (event,index) => {
         const values = [...formValues];
@@ -15,17 +20,28 @@ const BaseForm = ({ closeAction, submitAction,formFields }) => {
         closeAction();
     };
     return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
+        <FormContainer className="p-4"> 
+            <Form onSubmit={handleSubmit}>
             {formValues.map((obj,index) => {
                 return (
-                    <Input key={index} objValue={obj} onChange={handleChange} index={index}/>
+                    <Row key={index}>
+                        <Input key={index} objValue={obj} onChange={handleChange} index={index}/>
+                    </Row>
                 )
             })}
-            <button type="submit">Submit</button>
-            <button onClick={closeAction}>Close</button>
-            </form>
-        </div>
+                <Row className="my-2 mx-1">
+                    {children}
+                </Row>
+                <Row className="d-grid gap-2">
+                    <Col className="m-2" >
+                        <Button type="submit" variant="primary">Submit</Button>
+                    </Col>
+                    <Col className="m-2">
+                        <Button onClick={closeAction} variant="danger">Close</Button>
+                    </Col>
+                </Row>
+            </Form>
+        </FormContainer>
     );
 };
 

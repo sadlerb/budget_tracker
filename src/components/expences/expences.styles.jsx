@@ -21,6 +21,10 @@ export const ExpenseCard = styled.div`
         .amount{
             font-weight: bolder;
         }
+        &:hover{
+            background-color:var(--primary);
+            color:black;
+        }
     @media screen and (max-width: 600px){
     
         height: 30px;

@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import styled from "styled-components";
 
 
@@ -52,13 +53,8 @@ export const GraphContainer = styled.div`
   
 `
 
-export const EditButton = styled.button`
-    margin-top: 20px;
-    border: none;
-    width: 110px;
-    height: 40px;
-    border-radius: 40px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+export const EditButton = styled(Button)`
+
 `
 /* .home-container{
     width: 70%;

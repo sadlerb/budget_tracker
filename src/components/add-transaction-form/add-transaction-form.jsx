@@ -1,10 +1,12 @@
 import BaseForm from "../base-form/base-form";
 
+import {Form} from "react-bootstrap";
+
 import "./add-transaction-from.scss";
-const AddTransactionForm = ({ closeTransactionForm, addTransaction }) => {
+const AddTransactionForm = ({ closeForm, confirmForm,categories }) => {
     const formFields =[
-        { label: "name", type: "text", value: "" },
-        { label: "value", type: "number", value: 0 },
+        { label: "Name", type: "text", value: ""},
+        { label: "Value", type: "number", value: 0},
     ]
 
     
@@ -14,11 +16,19 @@ const AddTransactionForm = ({ closeTransactionForm, addTransaction }) => {
             results[formValue.label] = formValue.value
         });
         
-        addTransaction(results)
+        confirmForm(results)
     }
 
     return (
-        <BaseForm closeAction={closeTransactionForm} submitAction={formatTransactionDetails} formFields={formFields}>
+        <BaseForm closeAction={closeForm} submitAction={formatTransactionDetails} formFields={formFields}>
+            <Form.Label>Category</Form.Label>
+            <Form.Select> 
+                {categories.map((category)=>{
+                    return (
+                        <option value={category.id}>{category.name}</option>
+                    )
+                })}
+            </Form.Select>
         </BaseForm>
     );
 };
