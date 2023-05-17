@@ -4,9 +4,8 @@ import NavBar from "./components/navbar/navbar";
 import {AppContainer} from "./App.styles";
 
 import Home from "./pages/home/home";
-import BigSavings from "./pages/big-savings/big-savings";
-import Graphs from "./pages/graphs/graphs";
-import Profile from "./pages/profile/profile";
+import Login from "./pages/login/login";
+
 
 const App = () => {
   return (
@@ -14,11 +13,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="graphs" element={<Graphs />} />
-          <Route path="/planner" element={<BigSavings />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" exact element={<Login />} />
         </Routes>
-        <NavBar />
       </BrowserRouter>
     </AppContainer>
   );

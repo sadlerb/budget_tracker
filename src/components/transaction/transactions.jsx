@@ -3,11 +3,12 @@ import {TransactionList} from "./transactions.styles";
 const Transactions = ({ data }) => {
   return (
     <TransactionList>
-      {data.map((transaction) => {
+      {data.map((transaction,index) => {
         return (
-          <div key={transaction.id}>
-            <p>{transaction.Name}</p>
-            <p className="amount">${transaction.Transaction}</p>
+          <div key={index}>
+            <p>{transaction.name}</p>
+            <p className="amount">${transaction.transaction}</p>
+            <p>{transaction.category}</p>
           </div>
         );
       })}
